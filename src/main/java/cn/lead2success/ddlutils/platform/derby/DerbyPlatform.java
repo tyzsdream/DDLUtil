@@ -19,6 +19,16 @@ package cn.lead2success.ddlutils.platform.derby;
  * under the License.
  */
 
+import cn.lead2success.ddlutils.DatabaseOperationException;
+import cn.lead2success.ddlutils.PlatformInfo;
+import cn.lead2success.ddlutils.alteration.AddColumnChange;
+import cn.lead2success.ddlutils.alteration.TableChange;
+import cn.lead2success.ddlutils.alteration.TableDefinitionChangesPredicate;
+import cn.lead2success.ddlutils.model.CascadeActionEnum;
+import cn.lead2success.ddlutils.model.Table;
+import cn.lead2success.ddlutils.platform.DefaultTableDefinitionChangesPredicate;
+import cn.lead2success.ddlutils.platform.PlatformImplBase;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -26,16 +36,6 @@ import java.sql.Types;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import cn.lead2success.ddlutils.alteration.AddColumnChange;
-import cn.lead2success.ddlutils.alteration.TableChange;
-import cn.lead2success.ddlutils.alteration.TableDefinitionChangesPredicate;
-import cn.lead2success.ddlutils.DatabaseOperationException;
-import cn.lead2success.ddlutils.PlatformInfo;
-import cn.lead2success.ddlutils.model.CascadeActionEnum;
-import cn.lead2success.ddlutils.model.Table;
-import cn.lead2success.ddlutils.platform.DefaultTableDefinitionChangesPredicate;
-import cn.lead2success.ddlutils.platform.PlatformImplBase;
 
 /**
  * The platform implementation for Derby.

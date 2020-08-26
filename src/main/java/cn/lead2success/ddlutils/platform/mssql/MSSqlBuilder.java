@@ -19,23 +19,17 @@ package cn.lead2success.ddlutils.platform.mssql;
  * under the License.
  */
 
+import cn.lead2success.ddlutils.Platform;
+import cn.lead2success.ddlutils.alteration.ColumnDefinitionChange;
+import cn.lead2success.ddlutils.model.*;
+import cn.lead2success.ddlutils.platform.SqlBuilder;
+import org.apache.commons.lang.StringUtils;
+
 import java.io.IOException;
 import java.sql.Types;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Map;
-
-import cn.lead2success.ddlutils.alteration.ColumnDefinitionChange;
-import org.apache.commons.lang.StringUtils;
-
-import cn.lead2success.ddlutils.Platform;
-import cn.lead2success.ddlutils.model.Column;
-import cn.lead2success.ddlutils.model.Database;
-import cn.lead2success.ddlutils.model.ForeignKey;
-import cn.lead2success.ddlutils.model.Index;
-import cn.lead2success.ddlutils.model.Table;
-import cn.lead2success.ddlutils.model.TypeMap;
-import cn.lead2success.ddlutils.platform.SqlBuilder;
 
 /**
  * The SQL Builder for the Microsoft SQL Server.

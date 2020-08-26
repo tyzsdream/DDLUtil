@@ -9,8 +9,10 @@ public class DMLSqlItem {
     public String tableName;
 
     /**
-     * sql列表
+     * sql模式，delete,skip,update，default(报错)
      */
+    public String mode = "default";
+
     List<DMLSqlItem.SqlItem> sqlItems;
     /**
      * 是否忽略，
@@ -57,10 +59,12 @@ public class DMLSqlItem {
         this.status = status;
     }
 
+    public static class RowSqlItem {
+        List<SqlItem> sqls;
+    }
+
     public static class SqlItem {
         public String sql;
-        public String status;
-        public boolean ignore = false;
-        public Throwable exception;
+        public Object[] params;
     }
 }

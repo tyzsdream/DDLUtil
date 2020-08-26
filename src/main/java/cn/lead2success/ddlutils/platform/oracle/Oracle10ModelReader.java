@@ -19,14 +19,14 @@ package cn.lead2success.ddlutils.platform.oracle;
  * under the License.
  */
 
+import cn.lead2success.ddlutils.Platform;
+import cn.lead2success.ddlutils.model.Table;
+import cn.lead2success.ddlutils.platform.DatabaseMetaDataWrapper;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
-
-import cn.lead2success.ddlutils.Platform;
-import cn.lead2success.ddlutils.model.Table;
-import cn.lead2success.ddlutils.platform.DatabaseMetaDataWrapper;
 
 /**
  * Reads a database model from an Oracle 10 database.

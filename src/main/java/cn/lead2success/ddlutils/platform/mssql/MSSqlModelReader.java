@@ -19,17 +19,6 @@ package cn.lead2success.ddlutils.platform.mssql;
  * under the License.
  */
 
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.sql.Types;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
-
 import cn.lead2success.ddlutils.DdlUtilsException;
 import cn.lead2success.ddlutils.Platform;
 import cn.lead2success.ddlutils.model.Column;
@@ -38,6 +27,12 @@ import cn.lead2success.ddlutils.model.Table;
 import cn.lead2success.ddlutils.model.TypeMap;
 import cn.lead2success.ddlutils.platform.DatabaseMetaDataWrapper;
 import cn.lead2success.ddlutils.platform.JdbcModelReader;
+
+import java.sql.*;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 /**
  * Reads a database model from a Microsoft Sql Server database.

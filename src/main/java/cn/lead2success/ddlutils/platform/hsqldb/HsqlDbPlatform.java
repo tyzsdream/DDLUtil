@@ -19,25 +19,21 @@ package cn.lead2success.ddlutils.platform.hsqldb;
  * under the License.
  */
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Types;
-
 import cn.lead2success.ddlutils.DdlUtilsException;
 import cn.lead2success.ddlutils.PlatformInfo;
-import cn.lead2success.ddlutils.alteration.AddColumnChange;
-import cn.lead2success.ddlutils.alteration.AddPrimaryKeyChange;
-import cn.lead2success.ddlutils.alteration.RemoveColumnChange;
-import cn.lead2success.ddlutils.alteration.TableChange;
-import cn.lead2success.ddlutils.alteration.TableDefinitionChangesPredicate;
+import cn.lead2success.ddlutils.alteration.*;
 import cn.lead2success.ddlutils.model.Column;
 import cn.lead2success.ddlutils.model.Database;
 import cn.lead2success.ddlutils.model.Table;
 import cn.lead2success.ddlutils.platform.CreationParameters;
 import cn.lead2success.ddlutils.platform.DefaultTableDefinitionChangesPredicate;
 import cn.lead2success.ddlutils.platform.PlatformImplBase;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Types;
 
 /**
  * The platform implementation for the HsqlDb database.

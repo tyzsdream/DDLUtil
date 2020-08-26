@@ -19,15 +19,14 @@ package cn.lead2success.ddlutils.platform;
  * under the License.
  */
 
+import cn.lead2success.ddlutils.model.TypeMap;
+import org.apache.commons.beanutils.ConversionException;
+import org.apache.commons.beanutils.ConvertUtils;
+
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
-
-import org.apache.commons.beanutils.ConversionException;
-import org.apache.commons.beanutils.ConvertUtils;
-
-import cn.lead2success.ddlutils.model.TypeMap;
 
 /**
  * Helper class for dealing with default values, e.g. converting them to other types.

@@ -19,17 +19,8 @@ package cn.lead2success.ddlutils.platform.db2;
  * under the License.
  */
 
-import java.io.IOException;
-import java.sql.Types;
-
 import cn.lead2success.ddlutils.PlatformInfo;
-import cn.lead2success.ddlutils.alteration.AddColumnChange;
-import cn.lead2success.ddlutils.alteration.ModelComparator;
-import cn.lead2success.ddlutils.alteration.PrimaryKeyChange;
-import cn.lead2success.ddlutils.alteration.RemoveColumnChange;
-import cn.lead2success.ddlutils.alteration.RemovePrimaryKeyChange;
-import cn.lead2success.ddlutils.alteration.TableChange;
-import cn.lead2success.ddlutils.alteration.TableDefinitionChangesPredicate;
+import cn.lead2success.ddlutils.alteration.*;
 import cn.lead2success.ddlutils.model.CascadeActionEnum;
 import cn.lead2success.ddlutils.model.Column;
 import cn.lead2success.ddlutils.model.Database;
@@ -38,6 +29,9 @@ import cn.lead2success.ddlutils.platform.CreationParameters;
 import cn.lead2success.ddlutils.platform.DefaultTableDefinitionChangesPredicate;
 import cn.lead2success.ddlutils.platform.PlatformImplBase;
 import cn.lead2success.ddlutils.util.StringUtilsExt;
+
+import java.io.IOException;
+import java.sql.Types;
 
 /**
  * The DB2 platform implementation.

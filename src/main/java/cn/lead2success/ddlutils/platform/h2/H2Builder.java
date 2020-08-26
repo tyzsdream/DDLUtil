@@ -19,15 +19,15 @@ package cn.lead2success.ddlutils.platform.h2;
  * under the License.
  */
 
-import java.io.IOException;
-
-import cn.lead2success.ddlutils.alteration.ColumnDefinitionChange;
 import cn.lead2success.ddlutils.Platform;
+import cn.lead2success.ddlutils.alteration.ColumnDefinitionChange;
 import cn.lead2success.ddlutils.model.Column;
 import cn.lead2success.ddlutils.model.Index;
 import cn.lead2success.ddlutils.model.Table;
 import cn.lead2success.ddlutils.model.TypeMap;
 import cn.lead2success.ddlutils.platform.SqlBuilder;
+
+import java.io.IOException;
 
 
 /**

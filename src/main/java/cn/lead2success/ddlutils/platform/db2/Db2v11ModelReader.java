@@ -1,8 +1,8 @@
 package cn.lead2success.ddlutils.platform.db2;
 
-import java.util.regex.Pattern;
-
 import cn.lead2success.ddlutils.Platform;
+
+import java.util.regex.Pattern;
 
 /**
  * Reads a database model from a Db2 UDB database.

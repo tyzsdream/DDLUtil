@@ -19,25 +19,12 @@ package cn.lead2success.ddlutils.platform.h2;
  * under the License.
  */
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
 import cn.lead2success.ddlutils.PlatformInfo;
-import cn.lead2success.ddlutils.alteration.AddForeignKeyChange;
-import cn.lead2success.ddlutils.alteration.ModelComparator;
-import cn.lead2success.ddlutils.alteration.RemoveForeignKeyChange;
-import cn.lead2success.ddlutils.alteration.RemoveIndexChange;
-import cn.lead2success.ddlutils.alteration.TableChange;
-import cn.lead2success.ddlutils.alteration.TableDefinitionChangesPredicate;
-import cn.lead2success.ddlutils.model.Database;
-import cn.lead2success.ddlutils.model.ForeignKey;
-import cn.lead2success.ddlutils.model.Index;
-import cn.lead2success.ddlutils.model.Reference;
-import cn.lead2success.ddlutils.model.Table;
+import cn.lead2success.ddlutils.alteration.*;
+import cn.lead2success.ddlutils.model.*;
 import cn.lead2success.ddlutils.util.StringUtilsExt;
+
+import java.util.*;
 
 /**
  * @author Tom Palmer

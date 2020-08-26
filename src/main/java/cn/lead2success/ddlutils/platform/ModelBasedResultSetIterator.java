@@ -19,30 +19,21 @@ package cn.lead2success.ddlutils.platform;
  * under the License.
  */
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.NoSuchElementException;
-
-import org.apache.commons.beanutils.BasicDynaBean;
-import org.apache.commons.beanutils.BasicDynaClass;
-import org.apache.commons.beanutils.DynaBean;
-import org.apache.commons.beanutils.DynaClass;
-import org.apache.commons.beanutils.DynaProperty;
-import org.apache.commons.collections.map.ListOrderedMap;
-
 import cn.lead2success.ddlutils.DatabaseOperationException;
 import cn.lead2success.ddlutils.dynabean.SqlDynaBean;
 import cn.lead2success.ddlutils.dynabean.SqlDynaClass;
 import cn.lead2success.ddlutils.model.Column;
 import cn.lead2success.ddlutils.model.Database;
 import cn.lead2success.ddlutils.model.Table;
+import org.apache.commons.beanutils.*;
+import org.apache.commons.collections.map.ListOrderedMap;
+
+import java.sql.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.NoSuchElementException;
 
 /**
  * This is an iterator that is specifically targeted at traversing result sets.

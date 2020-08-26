@@ -19,20 +19,16 @@ package cn.lead2success.ddlutils.platform.postgresql;
  * under the License.
  */
 
+import cn.lead2success.ddlutils.Platform;
+import cn.lead2success.ddlutils.model.*;
+import cn.lead2success.ddlutils.platform.DatabaseMetaDataWrapper;
+import cn.lead2success.ddlutils.platform.JdbcModelReader;
+
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
-
-import cn.lead2success.ddlutils.Platform;
-import cn.lead2success.ddlutils.model.Column;
-import cn.lead2success.ddlutils.model.ForeignKey;
-import cn.lead2success.ddlutils.model.Index;
-import cn.lead2success.ddlutils.model.Table;
-import cn.lead2success.ddlutils.model.TypeMap;
-import cn.lead2success.ddlutils.platform.DatabaseMetaDataWrapper;
-import cn.lead2success.ddlutils.platform.JdbcModelReader;
 
 /**
  * Reads a database model from a PostgreSql database.

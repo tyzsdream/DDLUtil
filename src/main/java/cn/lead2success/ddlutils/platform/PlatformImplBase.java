@@ -19,32 +19,16 @@ package cn.lead2success.ddlutils.platform;
  * under the License.
  */
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.math.BigDecimal;
-import java.sql.BatchUpdateException;
-import java.sql.Blob;
-import java.sql.Clob;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.SQLWarning;
-import java.sql.Statement;
-import java.sql.Types;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import cn.lead2success.ddlutils.*;
+import cn.lead2success.ddlutils.DatabaseOperationException;
+import cn.lead2success.ddlutils.DdlUtilsException;
+import cn.lead2success.ddlutils.Platform;
+import cn.lead2success.ddlutils.PlatformInfo;
+import cn.lead2success.ddlutils.alteration.*;
+import cn.lead2success.ddlutils.dynabean.SqlDynaClass;
+import cn.lead2success.ddlutils.dynabean.SqlDynaProperty;
+import cn.lead2success.ddlutils.model.*;
+import cn.lead2success.ddlutils.util.JdbcSupport;
+import cn.lead2success.ddlutils.util.SqlTokenizer;
 import org.apache.commons.beanutils.DynaBean;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
@@ -52,38 +36,13 @@ import org.apache.commons.collections.Predicate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import cn.lead2success.ddlutils.alteration.AddColumnChange;
-import cn.lead2success.ddlutils.alteration.AddForeignKeyChange;
-import cn.lead2success.ddlutils.alteration.AddIndexChange;
-import cn.lead2success.ddlutils.alteration.AddPrimaryKeyChange;
-import cn.lead2success.ddlutils.alteration.AddTableChange;
-import cn.lead2success.ddlutils.alteration.ColumnDefinitionChange;
-import cn.lead2success.ddlutils.alteration.ColumnOrderChange;
-import cn.lead2success.ddlutils.alteration.ForeignKeyChange;
-import cn.lead2success.ddlutils.alteration.IndexChange;
-import cn.lead2success.ddlutils.alteration.ModelChange;
-import cn.lead2success.ddlutils.alteration.ModelComparator;
-import cn.lead2success.ddlutils.alteration.PrimaryKeyChange;
-import cn.lead2success.ddlutils.alteration.RecreateTableChange;
-import cn.lead2success.ddlutils.alteration.RemoveColumnChange;
-import cn.lead2success.ddlutils.alteration.RemoveForeignKeyChange;
-import cn.lead2success.ddlutils.alteration.RemoveIndexChange;
-import cn.lead2success.ddlutils.alteration.RemovePrimaryKeyChange;
-import cn.lead2success.ddlutils.alteration.RemoveTableChange;
-import cn.lead2success.ddlutils.alteration.TableChange;
-import cn.lead2success.ddlutils.alteration.TableDefinitionChangesPredicate;
-import cn.lead2success.ddlutils.dynabean.SqlDynaClass;
-import cn.lead2success.ddlutils.dynabean.SqlDynaProperty;
-import cn.lead2success.ddlutils.model.CloneHelper;
-import cn.lead2success.ddlutils.model.Column;
-import cn.lead2success.ddlutils.model.Database;
-import cn.lead2success.ddlutils.model.ForeignKey;
-import cn.lead2success.ddlutils.model.Index;
-import cn.lead2success.ddlutils.model.ModelException;
-import cn.lead2success.ddlutils.model.Table;
-import cn.lead2success.ddlutils.model.TypeMap;
-import cn.lead2success.ddlutils.util.JdbcSupport;
-import cn.lead2success.ddlutils.util.SqlTokenizer;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.sql.*;
+import java.util.*;
 
 /**
  * Base class for platform implementations.

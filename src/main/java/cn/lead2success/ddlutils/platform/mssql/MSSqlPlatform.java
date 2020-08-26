@@ -19,26 +19,9 @@ package cn.lead2success.ddlutils.platform.mssql;
  * under the License.
  */
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Types;
-import java.util.Collection;
-
-import org.apache.commons.lang.StringUtils;
-
 import cn.lead2success.ddlutils.DdlUtilsException;
 import cn.lead2success.ddlutils.PlatformInfo;
-import cn.lead2success.ddlutils.alteration.AddColumnChange;
-import cn.lead2success.ddlutils.alteration.AddPrimaryKeyChange;
-import cn.lead2success.ddlutils.alteration.ColumnDefinitionChange;
-import cn.lead2success.ddlutils.alteration.ModelChange;
-import cn.lead2success.ddlutils.alteration.ModelComparator;
-import cn.lead2success.ddlutils.alteration.PrimaryKeyChange;
-import cn.lead2success.ddlutils.alteration.RemoveColumnChange;
-import cn.lead2success.ddlutils.alteration.RemovePrimaryKeyChange;
-import cn.lead2success.ddlutils.alteration.TableChange;
-import cn.lead2success.ddlutils.alteration.TableDefinitionChangesPredicate;
+import cn.lead2success.ddlutils.alteration.*;
 import cn.lead2success.ddlutils.model.CascadeActionEnum;
 import cn.lead2success.ddlutils.model.Column;
 import cn.lead2success.ddlutils.model.Database;
@@ -46,6 +29,13 @@ import cn.lead2success.ddlutils.model.Table;
 import cn.lead2success.ddlutils.platform.CreationParameters;
 import cn.lead2success.ddlutils.platform.DefaultTableDefinitionChangesPredicate;
 import cn.lead2success.ddlutils.platform.PlatformImplBase;
+import org.apache.commons.lang.StringUtils;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Types;
+import java.util.Collection;
 
 /**
  * The platform implementation for the Microsoft SQL Server database.

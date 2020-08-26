@@ -19,23 +19,6 @@ package cn.lead2success.ddlutils.platform.oracle;
  * under the License.
  */
 
-import java.sql.DatabaseMetaData;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.sql.Types;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
-
-import org.apache.commons.collections.map.ListOrderedMap;
-
 import cn.lead2success.ddlutils.DdlUtilsException;
 import cn.lead2success.ddlutils.Platform;
 import cn.lead2success.ddlutils.model.Column;
@@ -44,6 +27,15 @@ import cn.lead2success.ddlutils.model.Table;
 import cn.lead2success.ddlutils.model.TypeMap;
 import cn.lead2success.ddlutils.platform.DatabaseMetaDataWrapper;
 import cn.lead2success.ddlutils.platform.JdbcModelReader;
+import org.apache.commons.collections.map.ListOrderedMap;
+
+import java.sql.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 /**
  * Reads a database model from an Oracle 8 database.

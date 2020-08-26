@@ -19,15 +19,11 @@ package cn.lead2success.ddlutils.platform;
  * under the License.
  */
 
+import cn.lead2success.ddlutils.alteration.*;
+import cn.lead2success.ddlutils.model.Table;
+
 import java.util.Iterator;
 import java.util.List;
-
-import cn.lead2success.ddlutils.alteration.AddColumnChange;
-import cn.lead2success.ddlutils.alteration.AddPrimaryKeyChange;
-import cn.lead2success.ddlutils.alteration.ModelComparator;
-import cn.lead2success.ddlutils.alteration.TableChange;
-import cn.lead2success.ddlutils.alteration.TableDefinitionChangesPredicate;
-import cn.lead2success.ddlutils.model.Table;
 
 /**
  * This is the default predicate for filtering supported table definition changes

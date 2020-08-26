@@ -19,42 +19,19 @@ package cn.lead2success.ddlutils.platform;
  * under the License.
  */
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Types;
-import java.text.Collator;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
-
+import cn.lead2success.ddlutils.Platform;
+import cn.lead2success.ddlutils.PlatformInfo;
+import cn.lead2success.ddlutils.model.*;
 import cn.lead2success.ddlutils.util.StringUtilsExt;
 import org.apache.commons.collections.map.ListOrderedMap;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import cn.lead2success.ddlutils.Platform;
-import cn.lead2success.ddlutils.PlatformInfo;
-import cn.lead2success.ddlutils.model.CascadeActionEnum;
-import cn.lead2success.ddlutils.model.Column;
-import cn.lead2success.ddlutils.model.Database;
-import cn.lead2success.ddlutils.model.ForeignKey;
-import cn.lead2success.ddlutils.model.Index;
-import cn.lead2success.ddlutils.model.IndexColumn;
-import cn.lead2success.ddlutils.model.NonUniqueIndex;
-import cn.lead2success.ddlutils.model.Reference;
-import cn.lead2success.ddlutils.model.Table;
-import cn.lead2success.ddlutils.model.UniqueIndex;
+import java.sql.*;
+import java.text.Collator;
+import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * An utility class to create a Database model from a live database.

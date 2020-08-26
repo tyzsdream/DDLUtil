@@ -19,17 +19,13 @@ package cn.lead2success.ddlutils.platform.derby;
  * under the License.
  */
 
-import java.sql.SQLException;
-import java.util.Map;
-
 import cn.lead2success.ddlutils.Platform;
-import cn.lead2success.ddlutils.model.Column;
-import cn.lead2success.ddlutils.model.ForeignKey;
-import cn.lead2success.ddlutils.model.Index;
-import cn.lead2success.ddlutils.model.Table;
-import cn.lead2success.ddlutils.model.TypeMap;
+import cn.lead2success.ddlutils.model.*;
 import cn.lead2success.ddlutils.platform.DatabaseMetaDataWrapper;
 import cn.lead2success.ddlutils.platform.JdbcModelReader;
+
+import java.sql.SQLException;
+import java.util.Map;
 
 /**
  * Reads a database model from a Derby database.

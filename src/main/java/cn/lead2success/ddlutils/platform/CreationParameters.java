@@ -19,12 +19,11 @@ package cn.lead2success.ddlutils.platform;
  * under the License.
  */
 
-import java.util.HashMap;
-import java.util.Map;
-
+import cn.lead2success.ddlutils.model.Table;
 import org.apache.commons.collections.map.ListOrderedMap;
 
-import cn.lead2success.ddlutils.model.Table;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Contains parameters used in the table creation. Note that the definition

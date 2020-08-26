@@ -19,26 +19,13 @@ package cn.lead2success.ddlutils.platform.mssql;
  * under the License.
  */
 
+import cn.lead2success.ddlutils.PlatformInfo;
+import cn.lead2success.ddlutils.alteration.*;
+import cn.lead2success.ddlutils.model.*;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import cn.lead2success.ddlutils.PlatformInfo;
-import cn.lead2success.ddlutils.alteration.AddForeignKeyChange;
-import cn.lead2success.ddlutils.alteration.AddIndexChange;
-import cn.lead2success.ddlutils.alteration.AddPrimaryKeyChange;
-import cn.lead2success.ddlutils.alteration.ColumnDefinitionChange;
-import cn.lead2success.ddlutils.alteration.ModelComparator;
-import cn.lead2success.ddlutils.alteration.RemoveForeignKeyChange;
-import cn.lead2success.ddlutils.alteration.RemoveIndexChange;
-import cn.lead2success.ddlutils.alteration.RemovePrimaryKeyChange;
-import cn.lead2success.ddlutils.alteration.TableChange;
-import cn.lead2success.ddlutils.alteration.TableDefinitionChangesPredicate;
-import cn.lead2success.ddlutils.model.Column;
-import cn.lead2success.ddlutils.model.Database;
-import cn.lead2success.ddlutils.model.ForeignKey;
-import cn.lead2success.ddlutils.model.Index;
-import cn.lead2success.ddlutils.model.Table;
 
 /**
  * A model comparator customized for Sql Server.

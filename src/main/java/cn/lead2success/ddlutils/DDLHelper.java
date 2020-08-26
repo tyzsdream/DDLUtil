@@ -2,6 +2,7 @@ package cn.lead2success.ddlutils;
 
 import cn.hutool.core.io.IoUtil;
 import cn.lead2success.ddlutils.io.DatabaseIO;
+import cn.lead2success.ddlutils.model.Column;
 import cn.lead2success.ddlutils.model.Database;
 import cn.lead2success.ddlutils.model.Table;
 import cn.lead2success.ddlutils.util.SqlTokenizer;
@@ -38,20 +39,34 @@ public class DDLHelper {
      * @创建人  Allan
      * @创建时间  2020-6-20 17:48
      */
-    public DDLResult getAlterModelSql(String schema, Boolean removeTable) {
+    public DDLResult getAlterModelSql(String schema, Boolean removeTable, Boolean removeColumn) {
         Database oldDatabase = platform.readModelFromDatabase("model");
 
         DatabaseIO dbIO = new DatabaseIO();
         dbIO.setValidateXml(false);
         Database targetModel = dbIO.read(new StringReader(schema));
-        Map<String, Table> targetMaps = Arrays.stream(targetModel.getTables()).collect(Collectors.toMap(item -> item.getName(), item -> item));
-        List<Table> oldMaps = Arrays.stream(oldDatabase.getTables()).filter(table -> (!targetMaps.containsKey(table.getName()))).collect(Collectors.toList());
 
         if (!removeTable) {
+            Map<String, Table> targetMaps = Arrays.stream(targetModel.getTables()).collect(Collectors.toMap(item -> item.getName().toUpperCase(), item -> item));
+            List<Table> oldMaps = Arrays.stream(oldDatabase.getTables()).filter(table -> (!targetMaps.containsKey(table.getName().toUpperCase()))).collect(Collectors.toList());
             List<String> moreTable = new ArrayList<>();
             for (Table table : oldMaps) {
                 moreTable.add(table.getName());
                 oldDatabase.removeTable(table);
+            }
+        }
+        if (!removeColumn) {
+            Map<String, Table> oldTableMap = Arrays.stream(oldDatabase.getTables()).collect(Collectors.toMap(item -> item.getName().toUpperCase(), item -> item));
+            for (Table targetTable : targetModel.getTables()) {
+                Table oldTable = oldTableMap.get(targetTable.getName().toUpperCase());
+                if (null != oldTable) {
+                    for (Column oldColumn : oldTable.getColumns()) {
+                        long count = Arrays.stream(targetTable.getColumns()).filter(item -> item.getName().equalsIgnoreCase(oldColumn.getName())).count();
+                        if (count <= 0) {
+                            targetTable.addColumn(oldColumn);
+                        }
+                    }
+                }
             }
         }
 
@@ -87,7 +102,7 @@ public class DDLHelper {
                 try {
                     for (String sql : sqlItem.getSqls()) {
                         errSql = sql;
-                        System.out.println("exec:"+sql);
+                        System.out.println("exec:" + sql);
                         statement.executeUpdate(sql);
                     }
                     sqlItem.setStatus("1");

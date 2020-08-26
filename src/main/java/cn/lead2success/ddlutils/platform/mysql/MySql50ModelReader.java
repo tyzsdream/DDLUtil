@@ -19,12 +19,12 @@ package cn.lead2success.ddlutils.platform.mysql;
  * under the License.
  */
 
-import java.sql.SQLException;
-import java.util.Map;
-
 import cn.lead2success.ddlutils.Platform;
 import cn.lead2success.ddlutils.model.Column;
 import cn.lead2success.ddlutils.platform.DatabaseMetaDataWrapper;
+
+import java.sql.SQLException;
+import java.util.Map;
 
 /**
  * Reads a database model from a MySql 5 database.

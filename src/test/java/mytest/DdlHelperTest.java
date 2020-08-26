@@ -13,17 +13,11 @@ public class DdlHelperTest {
         readFile();
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://pgm-uf6igxpwh697530yqo.pg.rds.aliyuncs.com:1433/empi");
-        dataSource.setUsername("empi");
+        dataSource.setUrl("jdbc:postgresql://pgm-uf6igxpwh697530yqo.pg.rds.aliyuncs.com:1433/cda");
+        dataSource.setUsername("cda");
         dataSource.setPassword("1qaz2wsX");
         DDLHelper ddlHelper = new DDLHelper(dataSource);
-        String schema = readFile();
-        DDLResult ddlResult = ddlHelper.getAlterModelSql(schema, false);
-        ddlResult = ddlHelper.execute(ddlResult);
-        while (!ddlResult.isRunOver()) {
-            System.out.println("HAHAH");
-            ddlResult = ddlHelper.execute(ddlResult);
-        }
+        System.out.println(ddlHelper.getSchecule());
     }
 
 //String schema, Boolean removeTable, int warnSize, Boolean continueOnError

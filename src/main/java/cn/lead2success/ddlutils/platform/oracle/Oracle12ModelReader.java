@@ -15,13 +15,13 @@
  ******************************************************************************/
 package cn.lead2success.ddlutils.platform.oracle;
 
-import java.sql.SQLException;
-import java.sql.Types;
-import java.util.Map;
-
 import cn.lead2success.ddlutils.Platform;
 import cn.lead2success.ddlutils.model.Column;
 import cn.lead2success.ddlutils.platform.DatabaseMetaDataWrapper;
+
+import java.sql.SQLException;
+import java.sql.Types;
+import java.util.Map;
 
 
 

@@ -19,11 +19,11 @@ package cn.lead2success.ddlutils.platform.db2;
  * under the License.
  */
 
-import java.io.IOException;
-
 import cn.lead2success.ddlutils.Platform;
 import cn.lead2success.ddlutils.model.Column;
 import cn.lead2success.ddlutils.model.Table;
+
+import java.io.IOException;
 
 /**
  * The SQL Builder for DB2 v8 and above.

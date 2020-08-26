@@ -19,6 +19,15 @@ package cn.lead2success.ddlutils.platform.db2;
  * under the License.
  */
 
+import cn.lead2success.ddlutils.DdlUtilsException;
+import cn.lead2success.ddlutils.Platform;
+import cn.lead2success.ddlutils.model.Column;
+import cn.lead2success.ddlutils.model.Index;
+import cn.lead2success.ddlutils.model.Table;
+import cn.lead2success.ddlutils.model.TypeMap;
+import cn.lead2success.ddlutils.platform.DatabaseMetaDataWrapper;
+import cn.lead2success.ddlutils.platform.JdbcModelReader;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,15 +37,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-
-import cn.lead2success.ddlutils.DdlUtilsException;
-import cn.lead2success.ddlutils.Platform;
-import cn.lead2success.ddlutils.model.Column;
-import cn.lead2success.ddlutils.model.Index;
-import cn.lead2success.ddlutils.model.Table;
-import cn.lead2success.ddlutils.model.TypeMap;
-import cn.lead2success.ddlutils.platform.DatabaseMetaDataWrapper;
-import cn.lead2success.ddlutils.platform.JdbcModelReader;
 
 /**
  * Reads a database model from a Db2 UDB database.
