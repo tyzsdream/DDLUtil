@@ -6,10 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="api-server" />
         <module name="lts_dbutils" />
+        <module name="es-starter" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
+    <bytecodeTargetLevel target="8">
+      <module name="api-server" target="1.8" />
       <module name="lts_dbutils" target="1.8" />
     </bytecodeTargetLevel>
   </component>

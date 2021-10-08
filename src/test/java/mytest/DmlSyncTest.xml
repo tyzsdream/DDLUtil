@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<database xmlns="http://db.apache.org/ddlutils/schema/1.1" name="model">
+    <table name="pib_conf_app" description="应用接入表">
+        <column name="app_id" primaryKey="true" required="true" type="VARCHAR" size="40" autoIncrement="false" description="应用ID"/>
+        <column name="app_name" primaryKey="false" required="true" type="VARCHAR" size="100" autoIncrement="false" description="app_name"/>
+        <column name="security" primaryKey="false" required="true" type="VARCHAR" size="40" autoIncrement="false" description="授权码"/>
+        <column name="security1" primaryKey="false" required="true" type="VARCHAR" size="40" autoIncrement="false" description="授权码"/>
+    </table>
+    <table name="pib_conf_indexer" description="CDR索引配置">
+        <column name="id" primaryKey="true" required="true" type="VARCHAR" size="40" autoIncrement="false" description="索引器ID"/>
+        <column name="index_name" primaryKey="false" required="true" type="VARCHAR" size="100" autoIncrement="false" description="索引器名称"/>
+        <column name="index_sql" primaryKey="false" required="true" type="CLOB" autoIncrement="false" description="索引SQL"/>
+        <column name="index_size" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false" description="已索引数据量"/>
+        <column name="end_time" primaryKey="false" required="true" type="TIMESTAMP" size="29,6" autoIncrement="false"
+                description="上次索引截至时间"/>
+        <column name="remark" primaryKey="false" required="false" type="VARCHAR" size="100" autoIncrement="false" description="备注"/>
+        <column name="created_by" primaryKey="false" required="true" type="VARCHAR" size="40" autoIncrement="false" description="创建人"/>
+        <column name="create_datetime" primaryKey="false" required="true" type="TIMESTAMP" size="29,6" autoIncrement="false"
+                description="创建日期"/>
+        <column name="modified_by" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false" description="最后修改人"/>
+        <column name="modify_datetime" primaryKey="false" required="false" type="TIMESTAMP" size="29,6" autoIncrement="false"
+                description="最后修改日期"/>
+    </table>
+    <table name="pib_conf_report_mode" description="页面模式">
+        <column name="id" primaryKey="true" required="true" type="VARCHAR" size="40" autoIncrement="false"
+                description="页面ID  如“report.lis.zy”"/>
+        <column name="class_code" primaryKey="false" required="true" type="VARCHAR" size="100" autoIncrement="false"/>
+        <column name="type_code" primaryKey="false" required="false" type="VARCHAR" size="100" autoIncrement="false"/>
+        <column name="open_mode" primaryKey="false" required="true" type="VARCHAR" size="2" autoIncrement="false"
+                description="打开方式 0默认页面 1嵌入页面  2大字段页面"/>
+        <column name="open_url" primaryKey="false" required="false" type="VARCHAR" size="500" autoIncrement="false"
+                description="嵌入页面打开url"/>
+        <column name="open_sql" primaryKey="false" required="false" type="CLOB" autoIncrement="false"
+                description="大字段页面查询SQL"/>
+        <column name="extension" primaryKey="false" required="false" type="CLOB" autoIncrement="false"
+                description="扩展信息"/>
+        <column name="remark" primaryKey="false" required="false" type="VARCHAR" size="100" autoIncrement="false" description="备注"/>
+        <column name="created_by" primaryKey="false" required="true" type="VARCHAR" size="40" autoIncrement="false" description="创建人"/>
+        <column name="create_datetime" primaryKey="false" required="true" type="TIMESTAMP" size="29,6" autoIncrement="false"
+                description="创建日期"/>
+        <column name="modified_by" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false" description="最后修改人"/>
+        <column name="modify_datetime" primaryKey="false" required="false" type="TIMESTAMP" size="29,6" autoIncrement="false"
+                description="最后修改日期"/>
+        <column name="open_type" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"
+                description="/*打开途径 IFrame IE Chrome*/"/>
+        <column name="encode_param" primaryKey="false" required="false" type="VARCHAR" size="100" autoIncrement="false"/>
+    </table>
+    <table name="pib_conf_mapper" description="CDRSQL表">
+        <column name="id" primaryKey="true" required="true" type="VARCHAR" size="100" autoIncrement="false"/>
+        <column name="sql_file" primaryKey="false" required="true" type="VARCHAR" size="40" autoIncrement="false"/>
+        <column name="sql_id" primaryKey="false" required="true" type="VARCHAR" size="40" autoIncrement="false"/>
+        <column name="origin_sql" primaryKey="false" required="true" type="CLOB" autoIncrement="false"/>
+        <column name="current_sql" primaryKey="false" required="true" type="CLOB" autoIncrement="false"/>
+        <column name="change_code" primaryKey="false" required="true" type="VARCHAR" size="2" autoIncrement="false"
+                description="当前版本原始SQL文件是否变动 0未变 1变动"/>
+        <column name="status_code" primaryKey="false" required="true" type="VARCHAR" size="2" autoIncrement="false"/>
+        <column name="remark" primaryKey="false" required="false" type="VARCHAR" size="100" autoIncrement="false"/>
+        <column name="created_by" primaryKey="false" required="true" type="VARCHAR" size="40" autoIncrement="false" description="创建人"/>
+        <column name="create_datetime" primaryKey="false" required="true" type="TIMESTAMP" size="29,6" autoIncrement="false"
+                description="创建日期"/>
+        <column name="modified_by" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false" description="最后修改人"/>
+        <column name="modify_datetime" primaryKey="false" required="false" type="TIMESTAMP" size="29,6" autoIncrement="false"
+                description="最后修改日期"/>
+    </table>
+    <table name="pib_conf_user_ward" description="医生病区表">
+        <column name="id" primaryKey="true" required="true" type="VARCHAR" size="40" autoIncrement="false" description="索引器ID"/>
+        <column name="user_id" primaryKey="false" required="true" type="VARCHAR" size="40" autoIncrement="false" description="用户ID"/>
+        <column name="dept_id" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false" description="科室ID"/>
+        <column name="dept_name" primaryKey="false" required="false" type="VARCHAR" size="100" autoIncrement="false"/>
+        <column name="ward_id" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false" description="病区ID"/>
+        <column name="ward_name" primaryKey="false" required="false" type="VARCHAR" size="100" autoIncrement="false" description="病区名称"/>
+        <column name="group_id" primaryKey="false" required="false" type="VARCHAR" size="100" autoIncrement="false"/>
+        <column name="group_name" primaryKey="false" required="false" type="VARCHAR" size="100" autoIncrement="false"/>
+        <column name="role_level" primaryKey="false" required="false" type="VARCHAR" size="2" autoIncrement="false"
+                description="职权等级(0:全院 1.科室  2.病区  3.分组)"/>
+        <column name="is_default_code" primaryKey="false" required="false" type="VARCHAR" size="2" autoIncrement="false"
+                description="0.权限病区  1.默认病区"/>
+        <column name="remark" primaryKey="false" required="false" type="VARCHAR" size="100" autoIncrement="false" description="备注"/>
+        <column name="created_by" primaryKey="false" required="true" type="VARCHAR" size="40" autoIncrement="false" description="创建人"/>
+        <column name="create_datetime" primaryKey="false" required="true" type="TIMESTAMP" size="29,6" autoIncrement="false"
+                description="创建日期"/>
+        <column name="modified_by" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false" description="最后修改人"/>
+        <column name="modify_datetime" primaryKey="false" required="false" type="TIMESTAMP" size="29,6" autoIncrement="false"
+                description="最后修改日期"/>
+    </table>
+    <table name="pib_system_config">
+        <column name="type" primaryKey="false" required="false" type="LONGVARCHAR" autoIncrement="false"/>
+        <column name="key" primaryKey="true" required="true" type="VARCHAR" size="255" autoIncrement="false"/>
+        <column name="value" primaryKey="false" required="false" type="LONGVARCHAR" autoIncrement="false"/>
+        <column name="remark" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+        <column name="status" primaryKey="false" required="false" type="VARCHAR" size="255" autoIncrement="false"/>
+        <column name="created_by" primaryKey="false" required="false" type="VARCHAR" size="100" autoIncrement="false"/>
+        <column name="create_datetime" primaryKey="false" required="false" type="TIMESTAMP" size="29,6" autoIncrement="false"/>
+        <column name="modified_by" primaryKey="false" required="false" type="VARCHAR" size="100" autoIncrement="false"/>
+        <column name="modify_datetime" primaryKey="false" required="false" type="TIMESTAMP" size="29,6" autoIncrement="false"/>
+    </table>
+    <table name="pib_user">
+        <column name="id" primaryKey="true" required="true" type="VARCHAR" size="40" autoIncrement="false" description="用户标识或登录名"/>
+        <column name="name" primaryKey="true" required="true" type="VARCHAR" size="100" autoIncrement="false" description="节点名称或个人姓名"/>
+        <column name="password" primaryKey="false" required="true" type="VARCHAR" size="200" autoIncrement="false"/>
+        <column name="org_id" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false" description="机构ID"/>
+        <column name="dept_id" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false" description="部门ID"/>
+        <column name="type_code" primaryKey="false" required="true" type="VARCHAR" size="10" autoIncrement="false"/>
+        <column name="status_code" primaryKey="false" required="true" type="VARCHAR" size="10" autoIncrement="false" description="状态"/>
+        <column name="sex_code" primaryKey="false" required="false" type="VARCHAR" size="10" autoIncrement="false" description="性别"/>
+        <column name="mobile_phone" primaryKey="false" required="false" type="VARCHAR" size="20" autoIncrement="false"/>
+        <column name="address" primaryKey="false" required="false" type="VARCHAR" size="100" autoIncrement="false"/>
+        <column name="email" primaryKey="false" required="false" type="VARCHAR" size="100" autoIncrement="false"/>
+        <column name="qq" primaryKey="false" required="false" type="VARCHAR" size="100" autoIncrement="false"/>
+        <column name="valid_begin_datetime" primaryKey="false" required="false" type="TIMESTAMP" size="29,6" autoIncrement="false"/>
+        <column name="valid_end_datetime" primaryKey="false" required="false" type="TIMESTAMP" size="29,6" autoIncrement="false"/>
+        <column name="audit_datetime" primaryKey="false" required="false" type="TIMESTAMP" size="29,6" autoIncrement="false"/>
+        <column name="audited_by" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+        <column name="hint_ques" primaryKey="false" required="false" type="VARCHAR" size="100" autoIncrement="false"/>
+        <column name="hint_answer" primaryKey="false" required="false" type="VARCHAR" size="100" autoIncrement="false"/>
+        <column name="ldap_ou" primaryKey="false" required="false" type="VARCHAR" size="100" autoIncrement="false"/>
+        <column name="ldap_cn" primaryKey="false" required="false" type="VARCHAR" size="100" autoIncrement="false"/>
+        <column name="ldap_dn" primaryKey="false" required="false" type="VARCHAR" size="100" autoIncrement="false"/>
+        <column name="wechat_open_id" primaryKey="false" required="false" type="VARCHAR" size="100" autoIncrement="false"/>
+        <column name="wechat_dept_id" primaryKey="false" required="false" type="VARCHAR" size="100" autoIncrement="false"/>
+        <column name="py" primaryKey="false" required="false" type="VARCHAR" size="100" autoIncrement="false" description="拼音"/>
+        <column name="wb" primaryKey="false" required="false" type="VARCHAR" size="100" autoIncrement="false" description="五笔"/>
+        <column name="created_by" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false" description="创建人"/>
+        <column name="create_datetime" primaryKey="false" required="false" type="TIMESTAMP" size="29,6" autoIncrement="false"
+                description="创建日期"/>
+        <column name="modified_by" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false" description="最后修改人"/>
+        <column name="modify_datetime" primaryKey="false" required="false" type="TIMESTAMP" size="29,6" autoIncrement="false"
+                description="最后修改日期"/>
+    </table>
+    <table name="pib_user_config">
+        <column name="id" primaryKey="true" required="true" type="INTEGER" size="10" autoIncrement="false"/>
+        <column name="key" primaryKey="false" required="true" type="VARCHAR" size="100" autoIncrement="false"/>
+        <column name="account" primaryKey="false" required="true" type="VARCHAR" size="100" autoIncrement="false"/>
+        <column name="value" primaryKey="false" required="false" type="LONGVARCHAR" autoIncrement="false"/>
+        <column name="created_by" primaryKey="false" required="false" type="VARCHAR" size="100" autoIncrement="false"/>
+        <column name="create_datetime" primaryKey="false" required="false" type="TIMESTAMP" size="29,6" autoIncrement="false"/>
+        <column name="modified_by" primaryKey="false" required="false" type="VARCHAR" size="100" autoIncrement="false"/>
+        <column name="modify_datetime" primaryKey="false" required="false" type="TIMESTAMP" size="29,6" autoIncrement="false"/>
+    </table>
+
+    <table name="pib_conf_datasource">
+        <column name="id" primaryKey="true" required="true" type="VARCHAR" size="40" autoIncrement="false"/>
+        <column name="name" primaryKey="true" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+        <column name="driver_class" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+        <column name="url" primaryKey="false" required="false" type="VARCHAR" size="4000" autoIncrement="false"/>
+        <column name="user_name" primaryKey="false" required="false" type="VARCHAR" size="100" autoIncrement="false"/>
+        <column name="password" primaryKey="false" required="false" type="VARCHAR" size="100" autoIncrement="false"/>
+        <column name="max_active" primaryKey="false" required="false" type="INTEGER" size="10" autoIncrement="false"/>
+        <column name="initial_size" primaryKey="false" required="false" type="INTEGER" size="10" autoIncrement="false"/>
+        <column name="max_wait" primaryKey="false" required="false" type="INTEGER" size="10" autoIncrement="false"/>
+        <column name="min_idle" primaryKey="false" required="false" type="INTEGER" size="10" autoIncrement="false"/>
+        <column name="validation_query" primaryKey="false" required="false" type="VARCHAR" size="4000" autoIncrement="false"/>
+        <column name="create_datetime" primaryKey="false" required="false" type="DATE" size="13" autoIncrement="false"/>
+        <column name="created_by" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+        <column name="modify_datetime" primaryKey="false" required="false" type="DATE" size="13" autoIncrement="false"/>
+        <column name="modified_by" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+        <column name="ip" primaryKey="false" required="false" type="VARCHAR" size="100" autoIncrement="false"/>
+        <column name="port" primaryKey="false" required="false" type="INTEGER" size="10" autoIncrement="false"/>
+        <column name="database" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"/>
+    </table>
+
+    <table name="pib_conf_masking" description="脱敏配置表">
+        <column name="id" primaryKey="true" required="true" type="VARCHAR" size="40" autoIncrement="false"/>
+        <column name="type_code" primaryKey="true" required="true" type="VARCHAR" size="2" autoIncrement="false"
+                description="01、科室(科室内患者脱敏)"/>
+        <column name="target_id" primaryKey="false" required="true" type="VARCHAR" size="40" autoIncrement="false" description="目标ID"/>
+        <column name="encrypt_content" primaryKey="false" required="true" type="LONGVARCHAR" autoIncrement="false"
+                description="加密内容"/>
+        <column name="created_by" primaryKey="false" required="true" type="VARCHAR" size="40" autoIncrement="false" description="创建人"/>
+        <column name="create_datetime" primaryKey="false" required="true" type="TIMESTAMP" size="29,6" autoIncrement="false"
+                description="创建日期"/>
+        <column name="modified_by" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false" description="最后修改人"/>
+        <column name="modify_datetime" primaryKey="false" required="false" type="TIMESTAMP" size="29,6" autoIncrement="false"
+                description="最后修改日期"/>
+    </table>
+
+    <table name="pib_conf_query" description="脱敏待选字段列表">
+        <column name="sql_id" primaryKey="true" required="true" type="VARCHAR" size="100"
+                description="sql文件.具体sql,如：basePage.queryPageStats"/>
+        <column name="query_content" primaryKey="false" required="true" type="LONGVARCHAR"/>
+    </table>
+</database>

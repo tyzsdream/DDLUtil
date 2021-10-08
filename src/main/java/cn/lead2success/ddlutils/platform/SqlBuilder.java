@@ -50,7 +50,6 @@ import java.util.Map.Entry;
  * An implementation of this class can always delegate down to some templating technology such as Velocity if
  * it requires. Though often that can be quite complex when attempting to reuse code across many databases.
  * Hopefully only a small amount code needs to be changed on a per database basis.
- *
  * @version $Revision$
  */
 public abstract class SqlBuilder {
@@ -112,7 +111,6 @@ public abstract class SqlBuilder {
 
     /**
      * Creates a new sql builder.
-     *
      * @param platform The plaftform this builder belongs to
      */
     public SqlBuilder(Platform platform) {
@@ -121,7 +119,6 @@ public abstract class SqlBuilder {
 
     /**
      * Returns the platform object.
-     *
      * @return The platform
      */
     public Platform getPlatform() {
@@ -130,7 +127,6 @@ public abstract class SqlBuilder {
 
     /**
      * Returns the platform info object.
-     *
      * @return The info object
      */
     public PlatformInfo getPlatformInfo() {
@@ -139,7 +135,6 @@ public abstract class SqlBuilder {
 
     /**
      * Returns the writer that the DDL is printed to.
-     *
      * @return The writer
      */
     public Writer getWriter() {
@@ -148,7 +143,6 @@ public abstract class SqlBuilder {
 
     /**
      * Sets the writer for printing the DDL to.
-     *
      * @param writer The writer
      */
     public void setWriter(Writer writer) {
@@ -157,7 +151,6 @@ public abstract class SqlBuilder {
 
     /**
      * Returns the default value helper.
-     *
      * @return The default value helper
      */
     public DefaultValueHelper getDefaultValueHelper() {
@@ -166,7 +159,6 @@ public abstract class SqlBuilder {
 
     /**
      * Returns the string used to indent the SQL.
-     *
      * @return The indentation string
      */
     public String getIndent() {
@@ -175,7 +167,6 @@ public abstract class SqlBuilder {
 
     /**
      * Sets the string used to indent the SQL.
-     *
      * @param indent The indentation string
      */
     public void setIndent(String indent) {
@@ -186,7 +177,6 @@ public abstract class SqlBuilder {
      * Returns the locale that is used for number and date formatting
      * (when printing default values and in generates insert/update/delete
      * statements).
-     *
      * @return The locale or <code>null</code> if default formatting is used
      */
     public String getValueLocale() {
@@ -197,7 +187,6 @@ public abstract class SqlBuilder {
      * Sets the locale that is used for number and date formatting
      * (when printing default values and in generates insert/update/delete
      * statements).
-     *
      * @param localeStr The new locale or <code>null</code> if default formatting
      *                  should be used; Format is "language[_country[_variant]]"
      */
@@ -245,7 +234,6 @@ public abstract class SqlBuilder {
 
     /**
      * Returns the format object for formatting dates in the specified locale.
-     *
      * @return The date format object or null if no locale is set
      */
     protected DateFormat getValueDateFormat() {
@@ -254,7 +242,6 @@ public abstract class SqlBuilder {
 
     /**
      * Sets the format object for formatting dates in the specified locale.
-     *
      * @param format The date format object
      */
     protected void setValueDateFormat(DateFormat format) {
@@ -263,7 +250,6 @@ public abstract class SqlBuilder {
 
     /**
      * Returns the format object for formatting times in the specified locale.
-     *
      * @return The time format object or null if no locale is set
      */
     protected DateFormat getValueTimeFormat() {
@@ -272,7 +258,6 @@ public abstract class SqlBuilder {
 
     /**
      * Sets the date format object for formatting times in the specified locale.
-     *
      * @param format The time format object
      */
     protected void setValueTimeFormat(DateFormat format) {
@@ -281,7 +266,6 @@ public abstract class SqlBuilder {
 
     /**
      * Returns the format object for formatting numbers in the specified locale.
-     *
      * @return The number format object or null if no locale is set
      */
     protected NumberFormat getValueNumberFormat() {
@@ -291,7 +275,6 @@ public abstract class SqlBuilder {
     /**
      * Returns a new date format object for formatting numbers in the specified locale.
      * Platforms can override this if necessary.
-     *
      * @param format The number format object
      */
     protected void setValueNumberFormat(NumberFormat format) {
@@ -300,7 +283,6 @@ public abstract class SqlBuilder {
 
     /**
      * Adds a char sequence that needs escaping, and its escaped version.
-     *
      * @param charSequence   The char sequence
      * @param escapedVersion The escaped version
      */
@@ -312,7 +294,6 @@ public abstract class SqlBuilder {
      * Returns the maximum number of characters that a table name can have.
      * This method is intended to give platform specific builder implementations
      * more control over the maximum length.
-     *
      * @return The number of characters, or -1 if not limited
      */
     public int getMaxTableNameLength() {
@@ -323,7 +304,6 @@ public abstract class SqlBuilder {
      * Returns the maximum number of characters that a column name can have.
      * This method is intended to give platform specific builder implementations
      * more control over the maximum length.
-     *
      * @return The number of characters, or -1 if not limited
      */
     public int getMaxColumnNameLength() {
@@ -334,7 +314,6 @@ public abstract class SqlBuilder {
      * Returns the maximum number of characters that a constraint name can have.
      * This method is intended to give platform specific builder implementations
      * more control over the maximum length.
-     *
      * @return The number of characters, or -1 if not limited
      */
     public int getMaxConstraintNameLength() {
@@ -345,7 +324,6 @@ public abstract class SqlBuilder {
      * Returns the maximum number of characters that a foreign key name can have.
      * This method is intended to give platform specific builder implementations
      * more control over the maximum length.
-     *
      * @return The number of characters, or -1 if not limited
      */
     public int getMaxForeignKeyNameLength() {
@@ -358,7 +336,6 @@ public abstract class SqlBuilder {
 
     /**
      * Outputs the DDL required to drop and (re)create all tables in the database model.
-     *
      * @param database The database model
      * @throws IOException
      */
@@ -368,7 +345,6 @@ public abstract class SqlBuilder {
 
     /**
      * Outputs the DDL required to drop (if requested) and (re)create all tables in the database model.
-     *
      * @param database   The database
      * @param dropTables Whether to drop tables before creating them
      * @throws IOException
@@ -379,7 +355,6 @@ public abstract class SqlBuilder {
 
     /**
      * Outputs the DDL required to drop (if requested) and (re)create all tables in the database model.
-     *
      * @param database   The database
      * @param params     The parameters used in the creation
      * @param dropTables Whether to drop tables before creating them
@@ -406,7 +381,6 @@ public abstract class SqlBuilder {
     /**
      * Outputs the DDL to create the given temporary table. Per default this is simply
      * a call to {@link #createTable(Database, Table, Map)}.
-     *
      * @param database   The database model
      * @param table      The table
      * @param parameters Additional platform-specific parameters for the table creation
@@ -418,7 +392,6 @@ public abstract class SqlBuilder {
     /**
      * Outputs the DDL to drop the given temporary table. Per default this is simply
      * a call to {@link #dropTable(Table)}.
-     *
      * @param database The database model
      * @param table    The table
      */
@@ -431,7 +404,6 @@ public abstract class SqlBuilder {
      * that this copies only those columns that are in both tables.
      * Database-specific implementations might redefine this method though it usually
      * suffices to redefine the {@link #writeCastExpression(Column, Column)} method.
-     *
      * @param sourceTable The source table
      * @param targetTable The target table
      */
@@ -479,7 +451,6 @@ public abstract class SqlBuilder {
      * Writes a cast expression that converts the value of the source column to the data type
      * of the target column. Per default, simply the name of the source column is written
      * thereby assuming that any casts happen implicitly.
-     *
      * @param sourceColumn The source column
      * @param targetColumn The target column
      */
@@ -489,7 +460,6 @@ public abstract class SqlBuilder {
 
     /**
      * Compares the two strings.
-     *
      * @param string1     The first string
      * @param string2     The second string
      * @param caseMatters Whether case matters in the comparison
@@ -503,7 +473,6 @@ public abstract class SqlBuilder {
     /**
      * Outputs the DDL to create the table along with any non-external constraints as well
      * as with external primary keys and indices (but not foreign keys).
-     *
      * @param database The database model
      * @param table    The table
      * @throws IOException
@@ -515,7 +484,6 @@ public abstract class SqlBuilder {
     /**
      * Outputs the DDL to create the table along with any non-external constraints as well
      * as with external primary keys and indices (but not foreign keys).
-     *
      * @param database   The database model
      * @param table      The table
      * @param parameters Additional platform-specific parameters for the table creation
@@ -557,7 +525,6 @@ public abstract class SqlBuilder {
 
     /**
      * Writes the primary key constraints of the table as alter table statements.
-     *
      * @param table             The table
      * @param primaryKeyColumns The primary key columns
      * @throws IOException
@@ -577,7 +544,6 @@ public abstract class SqlBuilder {
 
     /**
      * Writes the indexes for the given table using external index creation statements.
-     *
      * @param table The table
      * @throws IOException
      */
@@ -594,7 +560,6 @@ public abstract class SqlBuilder {
 
     /**
      * Writes the given index for the table using an external index creation statement.
-     *
      * @param table The table
      * @param index The index
      * @throws IOException
@@ -636,7 +601,6 @@ public abstract class SqlBuilder {
 
     /**
      * Creates the external foreignkey creation statements for all tables in the database.
-     *
      * @param database The database
      * @throws IOException
      */
@@ -648,7 +612,6 @@ public abstract class SqlBuilder {
 
     /**
      * Creates external foreignkey creation statements if necessary.
-     *
      * @param database The database model
      * @param table    The table
      * @throws IOException
@@ -661,7 +624,6 @@ public abstract class SqlBuilder {
 
     /**
      * Writes a single foreign key constraint using a alter table statement.
-     *
      * @param database   The database model
      * @param table      The table
      * @param foreignKey The foreign key
@@ -692,7 +654,6 @@ public abstract class SqlBuilder {
 
     /**
      * Prints the SQL for adding a column to a table.
-     *
      * @param model     The database model
      * @param table     The table
      * @param newColumn The new column
@@ -709,7 +670,6 @@ public abstract class SqlBuilder {
 
     /**
      * Outputs the DDL required to drop the database.
-     *
      * @param database The database
      * @throws IOException
      */
@@ -742,7 +702,6 @@ public abstract class SqlBuilder {
     /**
      * Outputs the DDL required to drop the given table. This method also
      * drops foreign keys to the table.
-     *
      * @param database The database
      * @param table    The table
      * @throws IOException
@@ -770,7 +729,6 @@ public abstract class SqlBuilder {
      * Outputs the DDL to drop the table. Note that this method does not drop
      * foreign keys to this table. Use {@link #dropTable(Database, Table)}
      * if you want that.
-     *
      * @param table The table to drop
      * @throws IOException
      */
@@ -782,7 +740,6 @@ public abstract class SqlBuilder {
 
     /**
      * Creates external foreignkey drop statements.
-     *
      * @param table The table
      * @throws IOException
      */
@@ -795,7 +752,6 @@ public abstract class SqlBuilder {
     /**
      * Generates the statement to drop a foreignkey constraint from the database using an
      * alter table statement.
-     *
      * @param table      The table
      * @param foreignKey The foreign key
      * @throws IOException
@@ -811,7 +767,6 @@ public abstract class SqlBuilder {
      * Creates the SQL for inserting an object into the specified table.
      * If values are given then a concrete insert statement is created, otherwise an
      * insert statement usable in a prepared statement is build.
-     *
      * @param table           The table
      * @param columnValues    The columns values indexed by the column names
      * @param genPlaceholders Whether to generate value placeholders for a
@@ -868,7 +823,6 @@ public abstract class SqlBuilder {
      * Creates the SQL for updating an object in the specified table.
      * If values are given then a concrete update statement is created, otherwise an
      * update statement usable in a prepared statement is build.
-     *
      * @param table           The table
      * @param columnValues    Contains the values for the columns to update, and should also
      *                        contain the primary key values to identify the object to update
@@ -927,7 +881,6 @@ public abstract class SqlBuilder {
      * Creates the SQL for updating an object in the specified table.
      * If values are given then a concrete update statement is created, otherwise an
      * update statement usable in a prepared statement is build.
-     *
      * @param table           The table
      * @param oldColumnValues Contains the column values to identify the row to update
      * @param newColumnValues Contains the values for the columns to update
@@ -988,7 +941,6 @@ public abstract class SqlBuilder {
      * columns wil be used that are present in the given map. If the map is null or
      * completely empty, then the SQL will not have a WHERE clause. The SQL will contain
      * the columns in the order defined in the table.
-     *
      * @param table           The table
      * @param pkValues        The primary key columns to use, and optionally their values
      * @param genPlaceholders Whether to generate value placeholders for a
@@ -1028,7 +980,6 @@ public abstract class SqlBuilder {
 
     /**
      * Generates the string representation of the given value.
-     *
      * @param column The column
      * @param value  The value
      * @return The string representation
@@ -1095,7 +1046,6 @@ public abstract class SqlBuilder {
      * Generates the SQL for querying the id that was created in the last insertion
      * operation. This is obviously only useful for pk fields that are auto-incrementing.
      * A database that does not support this, will return <code>null</code>.
-     *
      * @param table The table
      * @return The sql, or <code>null</code> if the database does not support this
      */
@@ -1111,7 +1061,6 @@ public abstract class SqlBuilder {
     /**
      * Generates a version of the name that has at most the specified
      * length.
-     *
      * @param name          The original name
      * @param desiredLength The desired maximum length
      * @return The shortened version
@@ -1146,7 +1095,6 @@ public abstract class SqlBuilder {
 
     /**
      * Returns the table name. This method takes care of length limitations imposed by some databases.
-     *
      * @param table The table
      * @return The table name
      */
@@ -1156,7 +1104,6 @@ public abstract class SqlBuilder {
 
     /**
      * Outputs a comment for the table.
-     *
      * @param table The table
      */
     protected void writeTableComment(Table table) throws IOException {
@@ -1169,7 +1116,6 @@ public abstract class SqlBuilder {
     /**
      * Generates the first part of the ALTER TABLE statement including the
      * table name.
-     *
      * @param table The table being altered
      */
     protected void writeTableAlterStmt(Table table) throws IOException {
@@ -1180,7 +1126,6 @@ public abstract class SqlBuilder {
 
     /**
      * Writes the table creation statement without the statement end.
-     *
      * @param database   The model
      * @param table      The table
      * @param parameters Additional platform-specific parameters for the table creation
@@ -1209,7 +1154,6 @@ public abstract class SqlBuilder {
      * Writes the end of the table creation statement. Per default,
      * only the end of the statement is written, but this can be changed
      * in subclasses.
-     *
      * @param table      The table
      * @param parameters Additional platform-specific parameters for the table creation
      */
@@ -1219,7 +1163,6 @@ public abstract class SqlBuilder {
 
     /**
      * Writes the columns of the given table.
-     *
      * @param table The table
      */
     protected void writeColumns(Table table) throws IOException {
@@ -1234,7 +1177,6 @@ public abstract class SqlBuilder {
 
     /**
      * Returns the column name. This method takes care of length limitations imposed by some databases.
-     *
      * @param column The column
      * @return The column name
      */
@@ -1244,7 +1186,6 @@ public abstract class SqlBuilder {
 
     /**
      * Outputs the DDL for the specified column.
-     *
      * @param table  The table containing the column
      * @param column The column
      */
@@ -1274,7 +1215,6 @@ public abstract class SqlBuilder {
     /**
      * Returns the full SQL type specification (including size and precision/scale) for the
      * given column.
-     *
      * @param column The column
      * @return The full SQL type string including the size
      */
@@ -1285,7 +1225,6 @@ public abstract class SqlBuilder {
     /**
      * Returns the full SQL type specification (including size and precision/scale) for the
      * given column.
-     *
      * @param column     The column
      * @param nativeType Overrides the native type of the column; can include the size placeholder
      * @return The full SQL type string including the size
@@ -1310,7 +1249,6 @@ public abstract class SqlBuilder {
 
     /**
      * Returns the database-native type for the given column.
-     *
      * @param column The column
      * @return The native type
      */
@@ -1322,7 +1260,6 @@ public abstract class SqlBuilder {
 
     /**
      * Returns the bare database-native type for the given column without any size specifies.
-     *
      * @param column The column
      * @return The native type
      */
@@ -1337,7 +1274,6 @@ public abstract class SqlBuilder {
      * Returns the size specification for the given column. If the column is of a type that has size
      * or precision and scale, and no size is defined for the column itself, then the default size
      * or precision/scale for that type and platform is used instead.
-     *
      * @param column The column
      * @return The size spec
      */
@@ -1362,7 +1298,6 @@ public abstract class SqlBuilder {
 
     /**
      * Returns the native default value for the column.
-     *
      * @param column The column
      * @return The native default value
      */
@@ -1372,7 +1307,6 @@ public abstract class SqlBuilder {
 
     /**
      * Escapes the necessary characters in given string value.
-     *
      * @param value The value
      * @return The corresponding string with the special characters properly escaped
      */
@@ -1391,7 +1325,6 @@ public abstract class SqlBuilder {
      * Determines whether the given default spec is a non-empty spec that shall be used in a DEFAULT
      * expression. E.g. if the spec is an empty string and the type is a numeric type, then it is
      * no valid default value whereas if it is a string type, then it is valid.
-     *
      * @param defaultSpec The default value spec
      * @param typeCode    The JDBC type code
      * @return <code>true</code> if the default value spec is valid
@@ -1404,14 +1337,13 @@ public abstract class SqlBuilder {
 
     /**
      * Prints the default value stmt part for the column.
-     *
      * @param table  The table
      * @param column The column
      */
     protected void writeColumnDefaultValueStmt(Table table, Column column) throws IOException {
         int typeCode = column.getTypeCode();
         String defaultValue = column.getDefaultValue();
-        if (StringUtils.isNotBlank(defaultValue)
+        if (StringUtils.isNotBlank(defaultValue)   //Allan NOW  默认数据库时间
                 && "now".equalsIgnoreCase(defaultValue.trim())
                 && typeCode == Types.TIMESTAMP) {
             String timeStampNow = getTimeStampNow();
@@ -1419,6 +1351,7 @@ public abstract class SqlBuilder {
                 print(" DEFAULT ");
                 print(timeStampNow);
             }
+            return;
         }
 
         Object parsedDefault = column.getParsedDefaultValue();
@@ -1445,7 +1378,6 @@ public abstract class SqlBuilder {
 
     /**
      * Prints the default value of the column.
-     *
      * @param table  The table
      * @param column The column
      */
@@ -1455,7 +1387,6 @@ public abstract class SqlBuilder {
 
     /**
      * Prints the default value of the column.
-     *
      * @param defaultValue The default value
      * @param typeCode     The type code to write the default value for
      */
@@ -1476,7 +1407,6 @@ public abstract class SqlBuilder {
 
     /**
      * Prints that the column is an auto increment column.
-     *
      * @param table  The table
      * @param column The column
      */
@@ -1503,7 +1433,6 @@ public abstract class SqlBuilder {
      * Type, nullability, size, scale, default value, and precision radix are
      * the attributes checked.  Currently default values are compared, and
      * null and empty string are considered equal.
-     *
      * @param currentColumn The current column as it is in the database
      * @param desiredColumn The desired column
      * @return <code>true</code> if the column specifications differ
@@ -1543,7 +1472,6 @@ public abstract class SqlBuilder {
      * Returns the name to be used for the given foreign key. If the foreign key has no
      * specified name, this method determines a unique name for it. The name will also
      * be shortened to honor the maximum identifier length imposed by the platform.
-     *
      * @param table The table for whith the foreign key is defined
      * @param fk    The foreign key
      * @return The name
@@ -1574,7 +1502,6 @@ public abstract class SqlBuilder {
 
     /**
      * Returns the constraint name. This method takes care of length limitations imposed by some databases.
-     *
      * @param prefix     The constraint prefix, can be <code>null</code>
      * @param table      The table that the constraint belongs to
      * @param secondPart The second name part, e.g. the name of the constraint column
@@ -1600,7 +1527,6 @@ public abstract class SqlBuilder {
 
     /**
      * Writes the primary key constraints of the table inside its definition.
-     *
      * @param table The table
      */
     protected void writeEmbeddedPrimaryKeysStmt(Table table) throws IOException {
@@ -1615,7 +1541,6 @@ public abstract class SqlBuilder {
     /**
      * Determines whether we should generate a primary key constraint for the given
      * primary key columns.
-     *
      * @param primaryKeyColumns The pk columns
      * @return <code>true</code> if a pk statement should be generated for the columns
      */
@@ -1625,7 +1550,6 @@ public abstract class SqlBuilder {
 
     /**
      * Writes a primary key statement for the given columns.
-     *
      * @param table             The table
      * @param primaryKeyColumns The primary columns
      */
@@ -1642,7 +1566,6 @@ public abstract class SqlBuilder {
 
     /**
      * Returns the index name. This method takes care of length limitations imposed by some databases.
-     *
      * @param index The index
      * @return The index name
      */
@@ -1652,7 +1575,6 @@ public abstract class SqlBuilder {
 
     /**
      * Writes the indexes embedded within the create table statement.
-     *
      * @param table The table
      */
     protected void writeEmbeddedIndicesStmt(Table table) throws IOException {
@@ -1666,7 +1588,6 @@ public abstract class SqlBuilder {
 
     /**
      * Writes the given embedded index of the table.
-     *
      * @param table The table
      * @param index The index
      */
@@ -1701,7 +1622,6 @@ public abstract class SqlBuilder {
 
     /**
      * Generates the statement to drop a non-embedded index from the database.
-     *
      * @param table The table the index is on
      * @param index The index to drop
      * @throws IOException
@@ -1722,7 +1642,6 @@ public abstract class SqlBuilder {
 
     /**
      * Writes the foreign key constraints inside a create table () clause.
-     *
      * @param database The database model
      * @param table    The table
      */
@@ -1754,7 +1673,6 @@ public abstract class SqlBuilder {
 
     /**
      * Writes a list of local references for the given foreign key.
-     *
      * @param key The foreign key
      */
     protected void writeLocalReferences(ForeignKey key) throws IOException {
@@ -1768,7 +1686,6 @@ public abstract class SqlBuilder {
 
     /**
      * Writes a list of foreign references for the given foreign key.
-     *
      * @param key The foreign key
      */
     protected void writeForeignReferences(ForeignKey key) throws IOException {
@@ -1782,7 +1699,6 @@ public abstract class SqlBuilder {
 
     /**
      * Writes the onDelete action for the given foreign key.
-     *
      * @param table      The table
      * @param foreignKey The foreignkey
      */
@@ -1825,7 +1741,6 @@ public abstract class SqlBuilder {
 
     /**
      * Writes the onDelete action for the given foreign key.
-     *
      * @param table      The table
      * @param foreignKey The foreignkey
      */
@@ -1872,7 +1787,6 @@ public abstract class SqlBuilder {
 
     /**
      * Prints an SQL comment to the current stream.
-     *
      * @param text The comment text
      */
     protected void printComment(String text) throws IOException {
@@ -1915,7 +1829,6 @@ public abstract class SqlBuilder {
 
     /**
      * Prints some text.
-     *
      * @param text The text to print
      */
     protected void print(String text) throws IOException {
@@ -1924,7 +1837,6 @@ public abstract class SqlBuilder {
 
     /**
      * Returns the delimited version of the identifier (if configured).
-     *
      * @param identifier The identifier
      * @return The delimited version of the identifier unless the platform is configured
      * to use undelimited identifiers; in that case, the identifier is returned unchanged
@@ -1940,7 +1852,6 @@ public abstract class SqlBuilder {
     /**
      * Prints the given identifier. For most databases, this will
      * be a delimited identifier.
-     *
      * @param identifier The identifier
      */
     protected void printIdentifier(String identifier) throws IOException {
@@ -1950,7 +1861,6 @@ public abstract class SqlBuilder {
     /**
      * Prints the given identifier followed by a newline. For most databases, this will
      * be a delimited identifier.
-     *
      * @param identifier The identifier
      */
     protected void printlnIdentifier(String identifier) throws IOException {
@@ -1959,7 +1869,6 @@ public abstract class SqlBuilder {
 
     /**
      * Prints some text followed by a newline.
-     *
      * @param text The text to print
      */
     protected void println(String text) throws IOException {
@@ -1977,7 +1886,6 @@ public abstract class SqlBuilder {
     /**
      * Creates a reasonably unique identifier only consisting of hexadecimal characters and underscores.
      * It looks like <code>d578271282b42fce__2955b56e_107df3fbc96__8000</code> and is 48 characters long.
-     *
      * @return The identifier
      */
     protected String createUniqueIdentifier() {

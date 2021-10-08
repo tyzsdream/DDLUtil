@@ -2,9 +2,7 @@ package cn.lead2success.ddlutils;
 
 import cn.hutool.core.io.IoUtil;
 import cn.lead2success.ddlutils.io.DatabaseIO;
-import cn.lead2success.ddlutils.model.Column;
-import cn.lead2success.ddlutils.model.Database;
-import cn.lead2success.ddlutils.model.Table;
+import cn.lead2success.ddlutils.model.*;
 import cn.lead2success.ddlutils.util.SqlTokenizer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -39,8 +37,8 @@ public class DDLHelper {
      * @创建人  Allan
      * @创建时间  2020-6-20 17:48
      */
-    public DDLResult getAlterModelSql(String schema, Boolean removeTable, Boolean removeColumn) {
-        Database oldDatabase = platform.readModelFromDatabase("model");
+    public List<String> getAlterModelSql(String schema, Boolean removeTable, Boolean removeColumn, Boolean removeIndex, String dbCatalog, String dbSchema) {
+        Database oldDatabase = platform.readModelFromDatabase("model", dbCatalog, dbSchema, null);
 
         DatabaseIO dbIO = new DatabaseIO();
         dbIO.setValidateXml(false);
@@ -69,20 +67,68 @@ public class DDLHelper {
                 }
             }
         }
+        if (!removeIndex) {
+            Map<String, Table> oldTableMap = Arrays.stream(oldDatabase.getTables()).collect(Collectors.toMap(item -> item.getName().toUpperCase(), item -> item));
+            for (Table targetTable : targetModel.getTables()) {
+                Table oldTable = oldTableMap.get(targetTable.getName().toUpperCase());
+                if (null != oldTable) {
+                    for (Index index : oldTable.getIndices()) {
+                        long count = Arrays.stream(targetTable.getIndices()).filter(item -> item.getName().equalsIgnoreCase(index.getName())).count();
+                        if (count <= 0) {
+                            oldTable.removeIndex(index);
+                        }
+                    }
+                }
+            }
+        } else {
+            Map<String, Table> oldTableMap = Arrays.stream(oldDatabase.getTables()).collect(Collectors.toMap(item -> item.getName().toUpperCase(), item -> item));
+            for (Table targetTable : targetModel.getTables()) {
+                Table oldTable = oldTableMap.get(targetTable.getName().toUpperCase());
+                if (null != oldTable) {
+                    for (Index index : oldTable.getIndices()) {
+                        String indexName = index.getName().toLowerCase();
+                        if (index instanceof UniqueIndex && (indexName.indexOf("pk") >= 0 || indexName.indexOf("pkey") >= 0)) {
+                            oldTable.removeIndex(index);
+                        }
+                    }
+                }
+            }
+        }
 
         String sql = platform.getAlterModelSql(oldDatabase, targetModel);
-
         SqlTokenizer tokenizer = new SqlTokenizer(sql.trim());
         LinkedHashMap<String, DDLResult.SqlItem> sqlMap = new LinkedHashMap<>();
+        List<String> sqlList = new ArrayList<>();
         while (tokenizer.hasMoreStatements()) {
             String command = tokenizer.getNextStatement().trim();
-            String tabName = getMatchVal(sqlPattern, command, 2);
+            sqlList.add(command);
+        }
+        return sqlList;
+    }
+
+
+    /*
+     * @描述
+     * @参数 schema:
+     *       removeTable:
+     *       warnSize:
+     *       continueOnError:
+     * @返回值  cn.lead2success.ddlutils.DDLResult
+     * @创建人  Allan
+     * @创建时间  2020-6-20 17:48
+     */
+    public DDLResult getAlterSqlResult(String schema, Boolean removeTable, Boolean removeColumn, Boolean removeIndex, String dbCatalog, String dbSchema) {
+        List<String> sqls = getAlterModelSql(schema, removeTable, removeColumn, removeIndex, dbCatalog, dbSchema);
+
+        LinkedHashMap<String, DDLResult.SqlItem> sqlMap = new LinkedHashMap<>();
+        for (String sql : sqls) {
+            String tabName = getMatchVal(sqlPattern, sql, 2);
             tabName = tabName.endsWith("_") ? tabName.substring(0, tabName.length() - 1) : tabName;
             if (sqlMap.containsKey(tabName)) {
-                sqlMap.get(tabName).addSql(command);
+                sqlMap.get(tabName).addSql(sql);
             } else {
                 DDLResult.SqlItem sqlItem = new DDLResult.SqlItem(tabName);
-                sqlItem.addSql(command);
+                sqlItem.addSql(sql);
                 sqlMap.put(tabName, sqlItem);
             }
         }
@@ -118,8 +164,35 @@ public class DDLHelper {
         } finally {
             IoUtil.close(statement);
         }
-
         return ddlResult;
+    }
+
+    public boolean execute(List<String> sqls) {
+        List<String> insertTables = new ArrayList<>();
+        Statement statement = null;
+        int i = 0;
+        try {
+            statement = dataSource.getConnection().createStatement();
+            for (; i < sqls.size(); i++) {
+                String sql = sqls.get(i).trim().toUpperCase(Locale.ROOT);
+                String[] sqlArr = sql.split("\\s");
+                String tableName = sqlArr.length >= 3 ? sqlArr[2].trim() : "";
+                if (sql.startsWith("INSERT INTO")) {
+                    insertTables.add(tableName);
+                }
+                if (sql.startsWith("DROP TABLE")
+                        && !tableName.endsWith("_")
+                        && !insertTables.contains(tableName + "_")) {  //有备份表才允许删除原表
+                    throw new RuntimeException(String.format("脚本更新冲突,删除'%s'表失败", tableName));
+                }
+                statement.executeUpdate(sqls.get(i));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(String.format("执行脚本第%d行发生错误：\n%s", i + 1, String.join("\n", sqls)), e);
+        } finally {
+            IoUtil.close(statement);
+        }
+        return true;
     }
 
     /*
@@ -131,22 +204,23 @@ public class DDLHelper {
      * @创建时间  2020-6-22 9:12
      */
     @Deprecated
-    public String getModelSchemaFromDB() {
-        Database database = platform.readModelFromDatabase("model");
+    public String getModelSchemaFromDB(String dbCatalog, String dbSchema) {
+        Database database = platform.readModelFromDatabase("model", dbCatalog, dbSchema, null);
         DatabaseIO dbIO = new DatabaseIO();
         StringWriter writer = new StringWriter();
         dbIO.write(database, writer);
         return writer.toString();
     }
 
-    public String getSchecule() {
+    public String getSchecule(String dbCatalog, String dbSchema) {
         platform.setSqlCommentsOn(true);
-        Database database = platform.readModelFromDatabase("model");
+        Database database = platform.readModelFromDatabase("model", dbCatalog, dbSchema, null);
         DatabaseIO dbIO = new DatabaseIO();
         StringWriter stringWriter = new StringWriter();
         dbIO.write(database, stringWriter);
         return stringWriter.toString();
     }
+
 
     private String getMatchVal(Pattern pattern, String text, int matchIdx) {
         Matcher m = pattern.matcher(text);

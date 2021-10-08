@@ -68,9 +68,9 @@ public class DMLHelper {
 
     private List<Map<String, Object>> getSqlData(String dataContent, String[] columns) throws Exception {
         String[] rows = dataContent.split("\\{;。;}");
-        List<Map<String, Object>> resultList = new ArrayList<>();
+        List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
         for (String row : rows) {
-            Map<String, Object> rowMap = new LinkedHashMap<>();
+            Map<String, Object> rowMap = new LinkedHashMap<String, Object>();
             resultList.add(rowMap);
             String[] values = row.split("\\{,。,}");
             for (int i = 0; i < values.length; i++) {
