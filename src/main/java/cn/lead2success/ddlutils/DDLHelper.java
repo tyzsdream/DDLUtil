@@ -1,6 +1,7 @@
 package cn.lead2success.ddlutils;
 
 import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.lead2success.ddlutils.io.DatabaseIO;
 import cn.lead2success.ddlutils.model.*;
 import cn.lead2success.ddlutils.util.SqlTokenizer;
@@ -21,10 +22,19 @@ public class DDLHelper {
     private final Pattern sqlPattern = Pattern.compile("(CREATE TABLE|INSERT INTO|DROP TABLE|CREATE INDEX \\S* ON|COMMENT ON TABLE|COMMENT ON COLUMN) ([a-zA-Z_]*)([\\s\\.]*)([\\s\\S]*)");
     public DataSource dataSource;
     private Platform platform;
+    private String connSchema;
+    private String connCatalog;
+
 
     public DDLHelper(DataSource dataSource) {
         this.dataSource = dataSource;
         this.platform = PlatformFactory.createNewPlatformInstance(dataSource);
+        try {
+            connSchema = dataSource.getConnection().getCatalog();
+            connCatalog = dataSource.getConnection().getSchema();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /*
@@ -38,6 +48,8 @@ public class DDLHelper {
      * @创建时间  2020-6-20 17:48
      */
     public List<String> getAlterModelSql(String schema, Boolean removeTable, Boolean removeColumn, Boolean removeIndex, String dbCatalog, String dbSchema) {
+        dbCatalog = StrUtil.isNotEmpty(dbCatalog) ? dbCatalog : connCatalog;
+        dbSchema = StrUtil.isNotEmpty(dbSchema) ? dbSchema : connSchema;
         Database oldDatabase = platform.readModelFromDatabase("model", dbCatalog, dbSchema, null);
 
         DatabaseIO dbIO = new DatabaseIO();
@@ -106,7 +118,6 @@ public class DDLHelper {
         return sqlList;
     }
 
-
     /*
      * @描述
      * @参数 schema:
@@ -118,6 +129,9 @@ public class DDLHelper {
      * @创建时间  2020-6-20 17:48
      */
     public DDLResult getAlterSqlResult(String schema, Boolean removeTable, Boolean removeColumn, Boolean removeIndex, String dbCatalog, String dbSchema) {
+        dbCatalog = StrUtil.isNotEmpty(dbCatalog) ? dbCatalog : connCatalog;
+        dbSchema = StrUtil.isNotEmpty(dbSchema) ? dbSchema : connSchema;
+
         List<String> sqls = getAlterModelSql(schema, removeTable, removeColumn, removeIndex, dbCatalog, dbSchema);
 
         LinkedHashMap<String, DDLResult.SqlItem> sqlMap = new LinkedHashMap<>();
@@ -148,8 +162,8 @@ public class DDLHelper {
                 try {
                     for (String sql : sqlItem.getSqls()) {
                         errSql = sql;
-                        System.out.println("exec:" + sql);
-                        statement.executeUpdate(sql);
+                        _log.debug("exec:" + sql);
+                        statement.execute(sql);
                     }
                     sqlItem.setStatus("1");
                 } catch (Exception e) {
@@ -185,7 +199,8 @@ public class DDLHelper {
                         && !insertTables.contains(tableName + "_")) {  //有备份表才允许删除原表
                     throw new RuntimeException(String.format("脚本更新冲突,删除'%s'表失败", tableName));
                 }
-                statement.executeUpdate(sqls.get(i));
+                statement.execute(sqls.get(i));
+                _log.debug("exec:" + sqls.get(i));
             }
         } catch (Exception e) {
             throw new RuntimeException(String.format("执行脚本第%d行发生错误：\n%s", i + 1, String.join("\n", sqls)), e);

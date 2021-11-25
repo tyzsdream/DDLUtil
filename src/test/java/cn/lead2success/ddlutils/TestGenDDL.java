@@ -45,7 +45,7 @@ public class TestGenDDL {
     }
 
     @Test
-    public void main1(String[] args) {
+    public void main2() {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
         dataSource.setUrl("jdbc:postgresql://pgm-uf6igxpwh697530yqo.pg.rds.aliyuncs.com:1433/empi?currentSchema=public");
