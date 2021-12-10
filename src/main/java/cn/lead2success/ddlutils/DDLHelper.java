@@ -30,8 +30,8 @@ public class DDLHelper {
         this.dataSource = dataSource;
         this.platform = PlatformFactory.createNewPlatformInstance(dataSource);
         try {
-            connSchema = dataSource.getConnection().getCatalog();
-            connCatalog = dataSource.getConnection().getSchema();
+            connCatalog = dataSource.getConnection().getCatalog();
+            connSchema = dataSource.getConnection().getSchema();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
