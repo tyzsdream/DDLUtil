@@ -16,7 +16,7 @@ public class DdlHelperTest {
         dataSource.setUsername("hip_data");
         dataSource.setPassword("1qaz2wsX");
         DDLHelper ddlHelper = new DDLHelper(dataSource);
-        System.out.println(ddlHelper.getSchecule("",""));
+//        System.out.println(ddlHelper.getSchecule("",""));
     }
 
 //String schema, Boolean removeTable, int warnSize, Boolean continueOnError

@@ -14,7 +14,7 @@ public class DmlSyncTest {
         dataSource.setUrl("jdbc:postgresql://172.16.11.47:5432/empi?currentSchema=public");
         dataSource.setUsername("empi");
         dataSource.setPassword("1qaz2wsX");
-        String schema = FileUtil.readUtf8String("E:\\DefaultSpace\\ddlutils\\src\\test\\java\\mytest\\DmlSyncTest.xml");
+        String schema = FileUtil.readUtf8String("D:\\A_WORKSPACE\\DefaultSpace\\ddlutils\\src\\test\\java\\mytest\\DmlSyncTest.xml");
 
         DDLHelper ddlHelper = new DDLHelper(dataSource);
         List<String> alterModelSql = ddlHelper.getAlterModelSql(schema, false, false, true, null, "public");

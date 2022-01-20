@@ -2,6 +2,7 @@ package cn.lead2success.ddlutils;
 
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.lead2success.ddlutils.custom.pojo.QueryParams;
 import cn.lead2success.ddlutils.io.DatabaseIO;
 import cn.lead2success.ddlutils.model.*;
 import cn.lead2success.ddlutils.util.SqlTokenizer;
@@ -11,6 +12,7 @@ import org.apache.commons.logging.LogFactory;
 import javax.sql.DataSource;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.sql.Connection;
 import java.sql.Statement;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -29,11 +31,27 @@ public class DDLHelper {
     public DDLHelper(DataSource dataSource) {
         this.dataSource = dataSource;
         this.platform = PlatformFactory.createNewPlatformInstance(dataSource);
+        Connection connection = null;
         try {
-            connCatalog = dataSource.getConnection().getCatalog();
-            connSchema = dataSource.getConnection().getSchema();
+            connection = dataSource.getConnection();
+            connCatalog = connection.getCatalog();
+            connSchema = connection.getSchema();
+        } catch (AbstractMethodError e) {
         } catch (Exception e) {
             throw new RuntimeException(e);
+        } finally {
+            IoUtil.close(connection);
+        }
+    }
+
+    public synchronized Database getDatabase(String name, String catalog, String schema, String[] tableTypes, QueryParams queryParams) {
+        try {
+            platform.setQueryParams(queryParams);
+            return platform.readModelFromDatabase(name, catalog, schema, tableTypes);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            platform.setQueryParams(null);
         }
     }
 
@@ -50,14 +68,22 @@ public class DDLHelper {
     public List<String> getAlterModelSql(String schema, Boolean removeTable, Boolean removeColumn, Boolean removeIndex, String dbCatalog, String dbSchema) {
         dbCatalog = StrUtil.isNotEmpty(dbCatalog) ? dbCatalog : connCatalog;
         dbSchema = StrUtil.isNotEmpty(dbSchema) ? dbSchema : connSchema;
-        Database oldDatabase = platform.readModelFromDatabase("model", dbCatalog, dbSchema, null);
-
         DatabaseIO dbIO = new DatabaseIO();
         dbIO.setValidateXml(false);
         Database targetModel = dbIO.read(new StringReader(schema));
-
+        Map<String, Table> targetMaps = Arrays.stream(targetModel.getTables()).collect(Collectors.toMap(item -> item.getName().toUpperCase(), item -> item));
         if (!removeTable) {
-            Map<String, Table> targetMaps = Arrays.stream(targetModel.getTables()).collect(Collectors.toMap(item -> item.getName().toUpperCase(), item -> item));
+            List<String> schemaTables = targetMaps.keySet().stream().map(item -> item.toUpperCase()).collect(Collectors.toList());
+            platform.setQueryParams(new QueryParams(schemaTables));
+        }
+
+        Database oldDatabase = null;
+        try {
+            oldDatabase = platform.readModelFromDatabase("model", dbCatalog, dbSchema, null);
+        } finally {
+            platform.setQueryParams(null);
+        }
+        if (!removeTable) {
             List<Table> oldMaps = Arrays.stream(oldDatabase.getTables()).filter(table -> (!targetMaps.containsKey(table.getName().toUpperCase()))).collect(Collectors.toList());
             List<String> moreTable = new ArrayList<>();
             for (Table table : oldMaps) {
@@ -151,8 +177,10 @@ public class DDLHelper {
 
     public DDLResult execute(DDLResult ddlResult) {
         Statement statement = null;
+        Connection connection = null;
         try {
-            statement = dataSource.getConnection().createStatement();
+            connection = dataSource.getConnection();
+            statement = connection.createStatement();
             List<DDLResult.SqlItem> sqlItems = ddlResult.getSqlItems();
             for (DDLResult.SqlItem sqlItem : sqlItems) {
                 if (sqlItem.isIgnore()) {
@@ -177,6 +205,7 @@ public class DDLHelper {
             throw new RuntimeException(e);
         } finally {
             IoUtil.close(statement);
+            IoUtil.close(connection);
         }
         return ddlResult;
     }
@@ -185,8 +214,10 @@ public class DDLHelper {
         List<String> insertTables = new ArrayList<>();
         Statement statement = null;
         int i = 0;
+        Connection connection = null;
         try {
-            statement = dataSource.getConnection().createStatement();
+            connection = dataSource.getConnection();
+            statement = connection.createStatement();
             for (; i < sqls.size(); i++) {
                 String sql = sqls.get(i).trim().toUpperCase(Locale.ROOT);
                 String[] sqlArr = sql.split("\\s");
@@ -206,6 +237,7 @@ public class DDLHelper {
             throw new RuntimeException(String.format("执行脚本第%d行发生错误：\n%s", i + 1, String.join("\n", sqls)), e);
         } finally {
             IoUtil.close(statement);
+            IoUtil.close(connection);
         }
         return true;
     }
@@ -219,21 +251,31 @@ public class DDLHelper {
      * @创建时间  2020-6-22 9:12
      */
     @Deprecated
-    public String getModelSchemaFromDB(String dbCatalog, String dbSchema) {
-        Database database = platform.readModelFromDatabase("model", dbCatalog, dbSchema, null);
-        DatabaseIO dbIO = new DatabaseIO();
-        StringWriter writer = new StringWriter();
-        dbIO.write(database, writer);
-        return writer.toString();
+    public String getModelSchemaFromDB(String dbCatalog, String dbSchema, QueryParams queryParams) {
+        try {
+            platform.setQueryParams(queryParams);
+            Database database = platform.readModelFromDatabase("model", dbCatalog, dbSchema, null);
+            DatabaseIO dbIO = new DatabaseIO();
+            StringWriter writer = new StringWriter();
+            dbIO.write(database, writer);
+            return writer.toString();
+        } finally {
+            platform.setQueryParams(null);
+        }
     }
 
-    public String getSchecule(String dbCatalog, String dbSchema) {
-        platform.setSqlCommentsOn(true);
-        Database database = platform.readModelFromDatabase("model", dbCatalog, dbSchema, null);
-        DatabaseIO dbIO = new DatabaseIO();
-        StringWriter stringWriter = new StringWriter();
-        dbIO.write(database, stringWriter);
-        return stringWriter.toString();
+    public  String getSchecule(String dbCatalog, String dbSchema, QueryParams queryParams) {
+        try {
+            platform.setQueryParams(queryParams);
+            platform.setSqlCommentsOn(true);
+            Database database = platform.readModelFromDatabase("model", dbCatalog, dbSchema, null);
+            DatabaseIO dbIO = new DatabaseIO();
+            StringWriter stringWriter = new StringWriter();
+            dbIO.write(database, stringWriter);
+            return stringWriter.toString();
+        } finally {
+            platform.setQueryParams(null);
+        }
     }
 
 

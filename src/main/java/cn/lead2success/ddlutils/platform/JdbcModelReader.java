@@ -19,8 +19,10 @@ package cn.lead2success.ddlutils.platform;
  * under the License.
  */
 
+import cn.hutool.core.util.StrUtil;
 import cn.lead2success.ddlutils.Platform;
 import cn.lead2success.ddlutils.PlatformInfo;
+import cn.lead2success.ddlutils.custom.pojo.QueryParams;
 import cn.lead2success.ddlutils.model.*;
 import cn.lead2success.ddlutils.util.StringUtilsExt;
 import org.apache.commons.collections.map.ListOrderedMap;
@@ -71,6 +73,10 @@ public class JdbcModelReader {
 
     /** The search string pattern. */
     private Pattern _searchStringPattern;
+
+    //region Allan 筛选，只查询部分表 202201201702
+    private QueryParams queryParams;
+    //endregion
 
     /**
      * Creates a new model reader instance.
@@ -463,6 +469,19 @@ public class JdbcModelReader {
             List<Table> tables = new ArrayList<>();
 
             while (tableData.next()) {
+                String table_name = tableData.getString("TABLE_NAME");
+                List<String> includeTables = null;
+                String tablePattern = "";
+                if (null != queryParams) {
+                    includeTables = queryParams.getIncludeTables();
+                    tablePattern = queryParams.getTablePattern();
+                }
+
+                if ((null != includeTables && includeTables.size() > 0 && !includeTables.contains(table_name.toUpperCase()))
+                        || (StrUtil.isNotBlank(tablePattern) && !Pattern.matches(tablePattern, table_name.toUpperCase()))) {
+                    continue;
+                }
+
                 Map<String, Object> values = readColumns(tableData, getColumnsForTable());
                 Table table = readTable(metaData, values);
 
@@ -506,22 +525,25 @@ public class JdbcModelReader {
             table.setSchema((String) values.get("TABLE_SCHEM"));
             table.setDescription((String) values.get("REMARKS"));
 
-            try {
-                table.addColumns(readColumns(metaData, tableName));
-                table.addForeignKeys(readForeignKeys(metaData, tableName));
-                table.addIndices(readIndices(metaData, tableName));
+            //Allan 控制只返回表列表 202201201702
+            if (null != queryParams && queryParams.isWithColumns()) {
+                try {
+                    table.addColumns(readColumns(metaData, tableName));
+                    table.addForeignKeys(readForeignKeys(metaData, tableName));
+                    table.addIndices(readIndices(metaData, tableName));
 
-                Collection<String> primaryKeys = readPrimaryKeyNames(metaData, tableName);
+                    Collection<String> primaryKeys = readPrimaryKeyNames(metaData, tableName);
 
-                for (Iterator<String> it = primaryKeys.iterator(); it.hasNext(); ) {
-                    table.findColumn(it.next(), true).setPrimaryKey(true);
+                    for (Iterator<String> it = primaryKeys.iterator(); it.hasNext(); ) {
+                        table.findColumn(it.next(), true).setPrimaryKey(true);
+                    }
+
+                    if (getPlatformInfo().isSystemIndicesReturned()) {
+                        removeSystemIndices(metaData, table);
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException("read table error:" + tableName, e);
                 }
-
-                if (getPlatformInfo().isSystemIndicesReturned()) {
-                    removeSystemIndices(metaData, table);
-                }
-            } catch (Exception e) {
-                throw new RuntimeException("read table error:" + tableName, e);
             }
         }
         return table;
@@ -1143,4 +1165,13 @@ public class JdbcModelReader {
         this._searchStringPattern = paramSearchStringPattern;
     }
 
+    //region Allan 筛选，只查询部分表 202201201702
+    public QueryParams getQueryParams() {
+        return queryParams;
+    }
+
+    public void setQueryParams(QueryParams queryParams) {
+        this.queryParams = queryParams;
+    }
+    //endregion
 }

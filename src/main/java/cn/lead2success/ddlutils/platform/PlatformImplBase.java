@@ -24,6 +24,7 @@ import cn.lead2success.ddlutils.DdlUtilsException;
 import cn.lead2success.ddlutils.Platform;
 import cn.lead2success.ddlutils.PlatformInfo;
 import cn.lead2success.ddlutils.alteration.*;
+import cn.lead2success.ddlutils.custom.pojo.QueryParams;
 import cn.lead2success.ddlutils.dynabean.SqlDynaClass;
 import cn.lead2success.ddlutils.dynabean.SqlDynaProperty;
 import cn.lead2success.ddlutils.model.*;
@@ -82,6 +83,10 @@ public abstract class PlatformImplBase extends JdbcSupport implements Platform {
      */
     private boolean _useDefaultOnDeleteActionIfUnsupported = true;
 
+    //region Allan 筛选，只查询部分表 202201201702
+    private QueryParams queryParams;
+    //endregion
+
     /**
      * {@inheritDoc}
      */
@@ -104,6 +109,9 @@ public abstract class PlatformImplBase extends JdbcSupport implements Platform {
         if (_modelReader == null) {
             _modelReader = new JdbcModelReader(this);
         }
+        //region Allan 用于添加控制内容，筛选等 202201201702
+        _modelReader.setQueryParams(queryParams);
+        //endregion
         return _modelReader;
     }
 
@@ -2651,4 +2659,16 @@ public abstract class PlatformImplBase extends JdbcSupport implements Platform {
                                                                   Table[] queryHints) {
         return new ModelBasedResultSetIterator(this, model, resultSet, queryHints, true);
     }
+
+    //region Allan 筛选，只查询部分表 202201201702
+    @Override
+    public QueryParams getQueryParams() {
+        return queryParams;
+    }
+
+    @Override
+    public void setQueryParams(QueryParams queryParams) {
+        this.queryParams = queryParams;
+    }
+    //endregion
 }

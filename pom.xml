@@ -16,7 +16,7 @@
     <groupId>cn.lead2success.util</groupId>
     <artifactId>ddlutils</artifactId>
     <packaging>jar</packaging>
-    <version>21112503</version>
+    <version>22012003</version>
     <name>${project.groupId}:${project.artifactId}</name>
     <description>Fork of Apache DdlUtils project without ant support.</description>
     <url>https://github.com/devlauer/ddlutils</url>
