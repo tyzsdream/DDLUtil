@@ -28,6 +28,10 @@ public class DDLHelper {
     private String connCatalog;
 
 
+    /**
+     * 构造函数，创建新实例
+     * @param dataSource
+     */
     public DDLHelper(DataSource dataSource) {
         this.dataSource = dataSource;
         this.platform = PlatformFactory.createNewPlatformInstance(dataSource);
@@ -44,9 +48,19 @@ public class DDLHelper {
         }
     }
 
+    /**
+     * 获取数据结构
+     * name – The name of the resulting database; null when the default name (the catalog) is desired which might be null itself though
+     * catalog – The catalog to access in the database; use null for the default value
+     * schema – The schema to access in the database; use null for the default value
+     * tableTypes – The table types to process; use null or an empty list for the default ones
+     * queryParams -    tablePattern:String 表名筛选正则，includeTables：List<String>：包含表名，withColumns:返回字典等信息 true;
+     */
     public synchronized Database getDatabase(String name, String catalog, String schema, String[] tableTypes, QueryParams queryParams) {
         try {
             platform.setQueryParams(queryParams);
+            catalog = StrUtil.isNotEmpty(catalog) ? catalog : connCatalog;
+            schema = StrUtil.isNotEmpty(schema) ? schema : connSchema;
             return platform.readModelFromDatabase(name, catalog, schema, tableTypes);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -254,6 +268,8 @@ public class DDLHelper {
     public String getModelSchemaFromDB(String dbCatalog, String dbSchema, QueryParams queryParams) {
         try {
             platform.setQueryParams(queryParams);
+            dbCatalog = StrUtil.isNotEmpty(dbCatalog) ? dbCatalog : connCatalog;
+            dbSchema = StrUtil.isNotEmpty(dbSchema) ? dbSchema : connSchema;
             Database database = platform.readModelFromDatabase("model", dbCatalog, dbSchema, null);
             DatabaseIO dbIO = new DatabaseIO();
             StringWriter writer = new StringWriter();
@@ -264,10 +280,12 @@ public class DDLHelper {
         }
     }
 
-    public  String getSchecule(String dbCatalog, String dbSchema, QueryParams queryParams) {
+    public String getSchecule(String dbCatalog, String dbSchema, QueryParams queryParams) {
         try {
             platform.setQueryParams(queryParams);
             platform.setSqlCommentsOn(true);
+            dbCatalog = StrUtil.isNotEmpty(dbCatalog) ? dbCatalog : connCatalog;
+            dbSchema = StrUtil.isNotEmpty(dbSchema) ? dbSchema : connSchema;
             Database database = platform.readModelFromDatabase("model", dbCatalog, dbSchema, null);
             DatabaseIO dbIO = new DatabaseIO();
             StringWriter stringWriter = new StringWriter();
